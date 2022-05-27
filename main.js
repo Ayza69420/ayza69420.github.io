@@ -9,7 +9,7 @@ document.getElementById("button").addEventListener("click",() => {
         const answer = answers[i].split(" ");
         
         if (answer.length == 3) { t_d.push([parseInt(answer[0]), answer[1], answer[2]]) }
-        else { d.push([parseInt(answer[0]), answer[1]]) }
+        else if (answer.length == 2) { d.push([parseInt(answer[0]), answer[1]]) }
     }
 
     for (let i=0; i<t_d.length; i++) {
