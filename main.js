@@ -63,7 +63,7 @@ document.getElementById("button").addEventListener("click",() => {
             else {
                 occurrences_x = 0;
                 occurrences_y = 0;
-
+ 
                 for (let k=0; k<t_d.length; k++) {
                     if (t_d[k][2] == x) {
                         occurrences_x++
