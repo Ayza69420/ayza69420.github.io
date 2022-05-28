@@ -13,7 +13,7 @@ document.getElementById("button").addEventListener("click",() => {
     }
 
     for (let i=0; i<t_d.length; i++) {
-        let [age, gender, genre] = t_d[i];   
+        let [_, gender, genre] = t_d[i];   
         let ages = [];
 
         if (!(genre in classifying[gender])) {
@@ -41,12 +41,51 @@ document.getElementById("button").addEventListener("click",() => {
             }
         }
 
-        if (possibilities) {
-            output.push(age + " " + gender + " " + ":" + " " + possibilities.join("/"));
+        for (let i=1; i<possibilities.length; i++) {
+            let x = possibilities[i-1];
+            let y = possibilities[i];    
+            let min_x = classifying[gender][x][0];
+            let min_y = classifying[gender][y][0];
+            let differences = [age-min_x, age-min_y];
+            
+            if (differences[0] != differences[1]) {
+                let maximum = Math.max(...differences)
+
+                if (maximum == differences[0]) {
+                    possibilities.splice(possibilities.indexOf(x), 1)
+                }
+
+                else {
+                    possibilities.splice(possibilities.indexOf(y), 1)
+                }
+            }
+
+            else {
+                occurrences_x = 0;
+                occurrences_y = 0;
+
+                for (let k=0; k<t_d.length; k++) {
+                    if (t_d[k][2] == x) {
+                        occurrences_x++
+                    }
+
+                    else if (t_d[k][2] == y) {
+                        occurrences_y++
+                    }
+                }
+                let minimum = Math.min(...[occurrences_x, occurrences_y]);
+                
+                if (minimum==occurrences_x) {
+                    possibilities.splice(possibilities.indexOf(x))
+                }
+                
+                else {
+                    possibilities.splice(possibilities.indexOf(y), 1)
+                }
+            }
         }
-        else {
-            output.push(age + " " + gender + " " + ":" + " " + "None");
-        }
+
+        output.push(age + " " + gender + " " + ":" + " " + possibilities.join("/"));
     }
 
     document.getElementById("output").innerHTML = output.join("\n");
