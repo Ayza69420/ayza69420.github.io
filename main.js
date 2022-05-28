@@ -76,12 +76,16 @@ document.getElementById("button").addEventListener("click",() => {
                 let minimum = Math.min(...[occurrences_x, occurrences_y]);
                 
                 if (minimum==occurrences_x) {
-                    possibilities.splice(possibilities.indexOf(x))
+                    console.log(possibilities)
+                    possibilities.splice(possibilities.indexOf(x), 1)
+                    console.log(possibilities)
                 }
                 
                 else {
                     possibilities.splice(possibilities.indexOf(y), 1)
                 }
+
+                console.log(possibilities)
             }
         }
 
