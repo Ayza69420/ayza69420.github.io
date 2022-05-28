@@ -1,3 +1,5 @@
+A simple yet efficient AI first implemented in python, then remade in javascript.
+
 Features: Age and gender  
 Prediction target: Genre  
 
