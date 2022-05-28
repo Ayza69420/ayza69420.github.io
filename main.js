@@ -8,8 +8,8 @@ document.getElementById("button").addEventListener("click",() => {
     for (let i=0; i<answers.length; i++) {
         const answer = answers[i].split(" ");
         
-        if (answer.length == 3) { t_d.push([parseInt(answer[0]), answer[1], answer[2]]) }
-        else if (answer.length == 2) { d.push([parseInt(answer[0]), answer[1]]) }
+        if (answer.length == 3) { t_d.push([parseInt(answer[0]), answer[1].toLowerCase(), answer[2]]) }
+        else if (answer.length == 2) { d.push([parseInt(answer[0]), answer[1].toLowerCase()]) }
     }
 
     for (let i=0; i<t_d.length; i++) {
@@ -76,16 +76,13 @@ document.getElementById("button").addEventListener("click",() => {
                 let minimum = Math.min(...[occurrences_x, occurrences_y]);
                 
                 if (minimum==occurrences_x) {
-                    console.log(possibilities)
                     possibilities.splice(possibilities.indexOf(x), 1)
-                    console.log(possibilities)
                 }
                 
                 else {
                     possibilities.splice(possibilities.indexOf(y), 1)
                 }
 
-                console.log(possibilities)
             }
         }
 
