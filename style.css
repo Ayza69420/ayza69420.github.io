@@ -3,11 +3,20 @@ body{
 }
 
 #label{
-    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-family:'Times New Roman', Times, serif;
     font-size: 25px;
     color: white;
     position: fixed;
     left: 5%;
+}
+
+#upd{
+    font-family:'Times New Roman', Times, serif;
+    font-size: 25px;
+    color: white;
+    position: fixed;
+    left: 98%;
+    top: 97%;
 }
 
 #input{
@@ -19,7 +28,7 @@ body{
     resize: none;
     border: none;
     background-color: rgb(70,70,70);
-    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-family:'Times New Roman', Times, serif;
     font-size: 25px;
     color: white;
 }
@@ -29,7 +38,7 @@ body{
     position: fixed;
     left: 49%;
     top: 60%;
-    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-family:'Times New Roman', Times, serif;
     font-size: 25px;
     color: white;
     border: none;
@@ -42,7 +51,7 @@ body{
     resize: none;
     border: none;
     background-color: rgb(70,70,70);
-    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-family:'Times New Roman', Times, serif;
     font-size: 25px;
     color: white;
 }
