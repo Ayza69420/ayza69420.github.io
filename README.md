@@ -1,5 +1,5 @@
-Features: Age and gender
-Prediction target: Genre
+Features: Age and gender  
+Prediction target: Genre  
 
 Example of valid data:
 
