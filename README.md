@@ -2,8 +2,11 @@ A simple yet efficient AI first implemented in python, then remade in javascript
 
 # Input
 
-Features: Age and gender  
-Prediction target: Genre  
+- Features
+  - Age
+  - Gender  
+- Prediction target
+  - Genre  
 
 Example of valid input:
 
