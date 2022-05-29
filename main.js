@@ -24,10 +24,8 @@ document.getElementById("button").addEventListener("click",() => {
                     ages.push(k_age);
                 }
             }
-            let range = [];
 
-            for (let ran=Math.min(...ages); ran<Math.max(...ages)+1; ran++) { range.push(ran) }
-            classifying[gender][genre] = range
+            classifying[gender][genre] = [Math.min(...ages), Math.max(...ages)]
         }
     }
 
@@ -36,7 +34,7 @@ document.getElementById("button").addEventListener("click",() => {
         let possibilities = [];
 
         for (let item in classifying[gender]) {
-            if (classifying[gender][item].includes(age)) {
+            if (age >= classifying[gender][item][0] && age <= classifying[gender][item][1]) {
                 possibilities.push(item);
             }
         }
@@ -63,7 +61,7 @@ document.getElementById("button").addEventListener("click",() => {
             else {
                 occurrences_x = 0;
                 occurrences_y = 0;
- 
+
                 for (let k=0; k<t_d.length; k++) {
                     if (t_d[k][2] == x) {
                         occurrences_x++
