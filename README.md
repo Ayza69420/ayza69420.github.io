@@ -16,5 +16,5 @@ Example of valid input:
 
 # Important notes
 
-- Gender could be one of male/female, and it is not case sensitive.
+- Gender can be one of male/female, and it is not case sensitive.
 - This AI cannot predict what is lower/higher than the minimum/maximum age in the given data to keep it as accurrate as I can
