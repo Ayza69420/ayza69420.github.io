@@ -5,7 +5,7 @@ document.getElementById("button").addEventListener("click",() => {
     var classifying = {"male": {}, "female": {}};
     var genres = new Set();
     var output = [];
-
+ 
     const answers = document.getElementById("input").value.split("\n");
 
     for (let i=0; i<answers.length; i++) {
