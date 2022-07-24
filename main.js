@@ -64,7 +64,7 @@ document.getElementById("button").addEventListener("click",() => {
             }
 
             else {
-                possibilities.splice(possibilities.indexOf(Math.max(...differences.slice(3,5))==differences[3]?k:possibilities[0]) ,1)
+                possibilities.splice(possibilities.indexOf(Math.max(...differences.slice(2,4))==differences[3]?k:possibilities[0]) ,1)
             }
 
         }
