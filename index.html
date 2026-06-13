@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GitHub Repo Video Player</title>
+    <title>Stream Player</title>
     <style>
         :root {
             --bg: #0f0f0f;
             --surface: #1e1e1e;
-            --primary: #3ea6ff;
+            --primary: #24A1DE;
             --text: #ffffff;
         }
 
@@ -29,22 +29,24 @@
             margin-top: 20px;
         }
 
-        /* Player Section */
         .player-wrapper {
             background: #000;
             border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             aspect-ratio: 16 / 9;
+            position: relative;
         }
 
-        video {
+        iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            display: block;
+            border: none;
         }
 
-        /* Playlist Section */
         .playlist-container {
             margin-top: 20px;
             background: var(--surface);
@@ -57,22 +59,23 @@
         #playlist {
             list-style: none;
             padding: 0;
-            max-height: 300px;
+            max-height: 350px;
             overflow-y: auto;
+            margin: 0;
         }
 
         .video-item {
-            padding: 12px;
+            padding: 14px;
             border-radius: 8px;
             cursor: pointer;
-            transition: background 0.2s;
+            transition: background 0.2s, color 0.2s;
             border-bottom: 1px solid #2a2a2a;
             display: flex;
             align-items: center;
         }
 
-        .video-item:hover { background: #333; }
-        .video-item.active { background: #3ea6ff22; color: var(--primary); font-weight: bold; }
+        .video-item:hover { background: #2a2a2a; }
+        .video-item.active { background: #24a1de22; color: var(--primary); font-weight: bold; }
         
         .video-item::before {
             content: "▶";
@@ -81,7 +84,6 @@
             opacity: 0.7;
         }
 
-        /* Scrollbar styling */
         #playlist::-webkit-scrollbar { width: 6px; }
         #playlist::-webkit-scrollbar-thumb { background: #444; border-radius: 10px; }
     </style>
@@ -90,48 +92,37 @@
 
 <div class="container">
     <div class="player-wrapper">
-        <video id="videoPlayer" controls>
-            Your browser does not support the video tag.
-        </video>
+        <iframe id="videoPlayer" src="" allowfullscreen></iframe>
     </div>
 
     <div class="playlist-container">
-        <h2 id="currentTitle">Select a Video</h2>
+        <h2 id="currentTitle">Select an Episode</h2>
         <ul id="playlist">
-            <li class="video-item">Loading videos from repository...</li>
+            <li class="video-item" style="pointer-events: none;">Loading library...</li>
         </ul>
     </div>
 </div>
 
 <script>
-    const repoOwner = 'ayza69420';
-    const repoName = 'ayza69420.github.io';
-    const videoExtensions = ['.mp4', '.webm', '.ogg', '.mov'];
-
     const player = document.getElementById('videoPlayer');
     const playlistEl = document.getElementById('playlist');
     const titleEl = document.getElementById('currentTitle');
 
-    async function fetchVideos() {
+    async function loadLibrary() {
         try {
-            // Fetch file list from GitHub API
-            const response = await fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/`);
-            const files = await response.json();
+            // This fetches the playlist.json file you just made
+            const response = await fetch('./playlist.json');
+            const videos = await response.json();
 
-            // Filter for video files only
-            const videos = files.filter(file => 
-                videoExtensions.some(ext => file.name.toLowerCase().endsWith(ext))
-            );
-
-            if (videos.length === 0) {
-                playlistEl.innerHTML = '<li class="video-item">No videos found in repository root.</li>';
+            if (!videos || videos.length === 0) {
+                playlistEl.innerHTML = '<li class="video-item" style="pointer-events:none;">Playlist is empty.</li>';
                 return;
             }
 
             renderPlaylist(videos);
         } catch (error) {
-            console.error('Error fetching videos:', error);
-            playlistEl.innerHTML = '<li class="video-item">Error loading videos. Check console.</li>';
+            console.error('Error reading playlist.json:', error);
+            playlistEl.innerHTML = '<li class="video-item" style="pointer-events:none;">Error loading playlist.json</li>';
         }
     }
 
@@ -141,30 +132,27 @@
         videos.forEach((video, index) => {
             const li = document.createElement('li');
             li.className = 'video-item';
-            li.textContent = video.name;
+            li.textContent = video.title;
             
             li.onclick = () => {
-                // Update Player
-                player.src = video.download_url;
-                player.play();
-                
-                // Update UI
-                titleEl.textContent = `Playing: ${video.name}`;
+                player.src = video.url;
+                titleEl.textContent = `Playing: ${video.title}`;
                 document.querySelectorAll('.video-item').forEach(el => el.classList.remove('active'));
                 li.classList.add('active');
             };
 
             playlistEl.appendChild(li);
 
-            // Auto-load the first video (optional)
+            // Load the first video automatically
             if (index === 0) {
-                player.src = video.download_url;
-                titleEl.textContent = `Next up: ${video.name}`;
+                player.src = video.url;
+                titleEl.textContent = `Up Next: ${video.title}`;
+                li.classList.add('active');
             }
         });
     }
 
-    fetchVideos();
+    loadLibrary();
 </script>
 
 </body>
