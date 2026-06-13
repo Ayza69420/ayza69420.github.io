@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stream Player</title>
+    <title>Stream Library Player</title>
     <style>
         :root {
-            --bg: #0f0f0f;
-            --surface: #1e1e1e;
-            --primary: #24A1DE;
+            --bg: #0d0e12;
+            --surface: #181a22;
+            --primary: #9b51e0; /* Clean purple accent */
             --text: #ffffff;
         }
 
@@ -33,7 +33,7 @@
             background: #000;
             border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
             aspect-ratio: 16 / 9;
             position: relative;
         }
@@ -54,7 +54,7 @@
             padding: 15px;
         }
 
-        h2 { margin-top: 0; font-size: 1.2rem; border-bottom: 1px solid #333; padding-bottom: 10px; }
+        h2 { margin-top: 0; font-size: 1.2rem; border-bottom: 1px solid #2d313f; padding-bottom: 10px; }
 
         #playlist {
             list-style: none;
@@ -69,13 +69,13 @@
             border-radius: 8px;
             cursor: pointer;
             transition: background 0.2s, color 0.2s;
-            border-bottom: 1px solid #2a2a2a;
+            border-bottom: 1px solid #2d313f;
             display: flex;
             align-items: center;
         }
 
-        .video-item:hover { background: #2a2a2a; }
-        .video-item.active { background: #24a1de22; color: var(--primary); font-weight: bold; }
+        .video-item:hover { background: #232733; }
+        .video-item.active { background: #9b51e022; color: var(--primary); font-weight: bold; }
         
         .video-item::before {
             content: "▶";
@@ -85,20 +85,21 @@
         }
 
         #playlist::-webkit-scrollbar { width: 6px; }
-        #playlist::-webkit-scrollbar-thumb { background: #444; border-radius: 10px; }
+        #playlist::-webkit-scrollbar-thumb { background: #3f4459; border-radius: 10px; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div class="player-wrapper">
-        <iframe id="videoPlayer" src="" allowfullscreen></iframe>
+        <!-- Filemoon frame targets are embedded securely through allowfullscreen -->
+        <iframe id="videoPlayer" src="" allowfullscreen="true" scrolling="no"></iframe>
     </div>
 
     <div class="playlist-container">
-        <h2 id="currentTitle">Select an Episode</h2>
+        <h2 id="currentTitle">Select From Menu</h2>
         <ul id="playlist">
-            <li class="video-item" style="pointer-events: none;">Loading library...</li>
+            <li class="video-item" style="pointer-events: none;">Loading cloud library...</li>
         </ul>
     </div>
 </div>
@@ -110,19 +111,18 @@
 
     async function loadLibrary() {
         try {
-            // This fetches the playlist.json file you just made
             const response = await fetch('./playlist.json');
             const videos = await response.json();
 
             if (!videos || videos.length === 0) {
-                playlistEl.innerHTML = '<li class="video-item" style="pointer-events:none;">Playlist is empty.</li>';
+                playlistEl.innerHTML = '<li class="video-item" style="pointer-events:none;">Your library index is empty.</li>';
                 return;
             }
 
             renderPlaylist(videos);
         } catch (error) {
             console.error('Error reading playlist.json:', error);
-            playlistEl.innerHTML = '<li class="video-item" style="pointer-events:none;">Error loading playlist.json</li>';
+            playlistEl.innerHTML = '<li class="video-item" style="pointer-events:none;">Error loading library config</li>';
         }
     }
 
@@ -143,7 +143,6 @@
 
             playlistEl.appendChild(li);
 
-            // Load the first video automatically
             if (index === 0) {
                 player.src = video.url;
                 titleEl.textContent = `Up Next: ${video.title}`;
